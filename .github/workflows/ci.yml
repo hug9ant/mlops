@@ -13,3 +13,12 @@ jobs:
     steps:
       - name: Run tests
         run: echo "Test CI completed."
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get os information
+        run: |
+        echo "Current os is: ${{ runner.os }}"
+        echo "Actor: ${{ github.actor }}"
