@@ -20,5 +20,5 @@ jobs:
     steps:
       - name: Get os information
         run: |
-        echo "Current os is: ${{ runner.os }}"
-        echo "Actor: ${{ github.actor }}"
+          echo "Current os is: ${{ runner.os }}"
+          echo "Actor: ${{ github.actor }}"
