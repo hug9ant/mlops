@@ -1,42 +1,18 @@
-name: CI
+name: Test docker actions
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
+on: 
+  workflow_dispatch:
+    inputs:
+      url:
+        type: string
+        default: 'https://www.google.com'
 
 jobs:
-  test:
+  ping-url:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - name: Ping URL
+        uses: ./.github/actions/docker-ping-url
         with:
-          python-version: "3.10"
-
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            pip-${{ runner.os }}-
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run lint
-        run: flake8 src/
-
-      - name: Run tests with coverage
-        run: pytest --cov=src --cov-report=xml
-
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: coverage.xml
+          url: ${{ inputs.url }}
